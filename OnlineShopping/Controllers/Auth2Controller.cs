@@ -6,8 +6,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using OnlineShopping.Buisness.DTOs;
-using OnlineShopping.Buisness.Manager;
 using OnlineShopping.DataAccess.Repository;
+using OnlineShopping.Buisness.ManagerClasses;
+using OnlineShopping.Common;
 
 namespace OnlineShopping.API.Controllers
 {
@@ -15,30 +16,32 @@ namespace OnlineShopping.API.Controllers
     [ApiController]
     public class Auth2Controller : ControllerBase
     {
-        private readonly IAuthRepository repo;
-        private readonly Auth2Manager auth;
+        private readonly AuthManager authManager;
+        private readonly IConfiguration config;
 
-        public Auth2Controller(IAuthRepository repo, Auth2Manager auth)
+        //AuthManager authManager = new AuthManager();
+        public Auth2Controller(IConfiguration config)
         {
-            this.repo = repo;
-            this.auth = auth;
+            this.authManager = new AuthManager();
+            this.config = config;
+            //UserForRegisterDto userForRegisterDto = new UserForRegisterDto();
+
         }
+
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(UserForRegisterDto userForRegisterDto)
+        public async Task<OperationResult> Register(UserForRegisterDto userForRegisterDto)
         {
-            userForRegisterDto.Email = userForRegisterDto.Email.ToLower();
-
-            if (await repo.UserExists(userForRegisterDto.Email))
-                return BadRequest("User exists");
-           
-            var cr =  auth.Register(userForRegisterDto);
-            var cre = await repo.Register(cr, userForRegisterDto.Password);
-
-            //return StatusCode(201);
-            return Ok(cre);
+            OperationResult operationResult = await authManager.UserRegister(userForRegisterDto);
+            return operationResult;
 
         }
+
+        //[HttpPost("login")]
+        //public async Task<OperationResult> Login()
+        //{
+        //    OperationResult operationResult = await a
+        //}
 
     }
 }

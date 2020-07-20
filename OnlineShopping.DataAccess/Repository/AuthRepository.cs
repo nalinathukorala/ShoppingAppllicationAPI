@@ -16,6 +16,11 @@ namespace OnlineShopping.DataAccess.Repository
             this.context = context;
         }
 
+        public AuthRepository()
+        {
+            context = new OnlineShoppingContext();
+        }
+
         public async Task<Customers> Login(string username, string password)
         {
             var user = await context.Customers.FirstOrDefaultAsync(x => x.Email == username);

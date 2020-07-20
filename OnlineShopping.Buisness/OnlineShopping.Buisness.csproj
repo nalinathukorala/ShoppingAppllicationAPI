@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\OnlineShopping.Common\OnlineShopping.Common.csproj" />
     <ProjectReference Include="..\OnlineShopping.DataAccess\OnlineShopping.DataAccess.csproj" />
   </ItemGroup>
 
