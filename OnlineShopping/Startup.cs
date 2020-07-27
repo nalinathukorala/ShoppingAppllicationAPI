@@ -40,7 +40,7 @@ namespace OnlineShopping
                   {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII
-                    .GetBytes(Configuration.GetSection("AppSettings:Token").Value)),
+                    .GetBytes(Configuration.GetSection("AppSettings:SecretKey").Value)),
                     ValidateIssuer = false,
                     ValidateAudience = false
                    };

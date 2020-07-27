@@ -20,6 +20,7 @@ namespace OnlineShopping.Buisness.ManagerClasses
         //UserForRegisterDto userForRegisterDto = new UserForRegisterDto();
         //AuthRepository repo = new AuthRepository();
         //AuthRepository repo;
+       
         AuthRepository repo = new AuthRepository();
         private readonly IConfiguration config;
 
@@ -36,16 +37,21 @@ namespace OnlineShopping.Buisness.ManagerClasses
 
         public async Task<OperationResult> UserRegister(UserForRegisterDto userForRegisterDto)
         {
-          
+
             OperationResult operationResult = new OperationResult();
-            operationResult.Status = Enum.Status.Success;
-            operationResult.Message = Constant.SuccessMessage;
-            operationResult.Message = Constant.UserExisits;
+            //operationResult.Status = Enum.Status.Success;
+            //operationResult.Message = Constant.SuccessMessage;
+            //operationResult.Message = Constant.UserExisits;
+           
 
             userForRegisterDto.Email = userForRegisterDto.Email.ToLower();
 
             if (await repo.UserExists(userForRegisterDto.Email))
+            {
+                operationResult.Message = Constant.UserExisits;
                 return operationResult;
+            }
+                
 
             var userToCreate = new Customers
             {
@@ -62,9 +68,20 @@ namespace OnlineShopping.Buisness.ManagerClasses
 
             var createdUser = await repo.Register(userToCreate, userForRegisterDto.Password);
 
-            operationResult.Data = createdUser;
+            if (createdUser != null)
+            {
+                operationResult.Data = createdUser;
 
-            return operationResult.Data;
+                operationResult.Message = "successfully created";
+            }
+            else
+            {
+                operationResult.Message = "Not user created";
+            }
+
+            return operationResult;
+
+            
 
             //return StatusCode(201);
 
@@ -90,7 +107,7 @@ namespace OnlineShopping.Buisness.ManagerClasses
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8
-                .GetBytes(config.GetSection("AppSettings:Token").Value));
+                .GetBytes(config.GetSection("AppSettings:SecretKey").Value));
 
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
@@ -111,7 +128,7 @@ namespace OnlineShopping.Buisness.ManagerClasses
             //    token = tokenHandler.WriteToken(token),
 
             //});
-            return operationResult;
+            return operationResult.Data(token);
 
 
         }

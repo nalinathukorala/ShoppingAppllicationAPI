@@ -8,6 +8,6 @@ namespace OnlineShopping.Common
     {
         public static readonly string SuccessMessage = "Success";
 
-        public static readonly string UserExisits = "Fail";
+        public static readonly string UserExisits = "User Name lready Exists";
     }
 }

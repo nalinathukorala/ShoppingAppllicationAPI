@@ -72,7 +72,7 @@ namespace OnlineShopping.API.Controllers
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8
-                .GetBytes(config.GetSection("AppSettings:Token").Value));
+                .GetBytes(config.GetSection("AppSettings:SecretKey").Value));
 
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 

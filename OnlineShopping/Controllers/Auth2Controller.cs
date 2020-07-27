@@ -28,7 +28,7 @@ namespace OnlineShopping.API.Controllers
 
         }
 
-
+        //user registration API endpoint
         [HttpPost("register")]
         public async Task<OperationResult> Register(UserForRegisterDto userForRegisterDto)
         {
@@ -37,11 +37,13 @@ namespace OnlineShopping.API.Controllers
 
         }
 
-        //[HttpPost("login")]
-        //public async Task<OperationResult> Login()
-        //{
-        //    OperationResult operationResult = await a
-        //}
+        //user login API endpoint
+        [HttpPost("login")]
+        public async Task<OperationResult> Login(UserForLoginDto userForLoginDto)
+        {
+            OperationResult operationResult = await authManager.UserLogin(userForLoginDto);
+            return operationResult;
+        }
 
     }
 }
