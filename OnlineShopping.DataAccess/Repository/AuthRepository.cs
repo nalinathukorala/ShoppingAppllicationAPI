@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using OnlineShopping.DataAccess.Repository.Interfaces;
 
 namespace OnlineShopping.DataAccess.Repository
 {
-   public class AuthRepository : IAuthRepository
+   public class AuthRepository : IAuthRepository<Customers>
     {
         private readonly OnlineShoppingContext context;
 
@@ -16,10 +17,10 @@ namespace OnlineShopping.DataAccess.Repository
             this.context = context;
         }
 
-        public AuthRepository()
-        {
-            context = new OnlineShoppingContext();
-        }
+        //public AuthRepository()
+        //{
+        //    context = new OnlineShoppingContext();
+        //}
 
         public async Task<Customers> Login(string username, string password)
         {
@@ -79,6 +80,31 @@ namespace OnlineShopping.DataAccess.Repository
                 return true;
 
             return false;
+        }
+
+        public Task<IEnumerable<Customers>> GetAllAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Customers> GetByIdAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> Insert(Customers entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Update(Customers entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Delete(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

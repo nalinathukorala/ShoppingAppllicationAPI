@@ -14,6 +14,9 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
+using OnlineShopping.Buisness.Interfaces;
+using OnlineShopping.Buisness.ManagerClasses;
+using OnlineShopping.DataAccess.Repository.Interfaces;
 
 namespace OnlineShopping
 {
@@ -32,7 +35,9 @@ namespace OnlineShopping
             services.AddDbContext<OnlineShoppingContext>(x => x.UseSqlServer(Configuration["ConnectionString:ShoppingDB"]));
             services.AddControllers();
             services.AddCors();
-            services.AddScoped<IAuthRepository, AuthRepository>();
+            services.AddScoped<IAuthManager, AuthManager>();
+            //services.AddScoped<IAuthRepository<Customers>, AuthRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>(); 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
               .AddJwtBearer(opttions =>
                  {

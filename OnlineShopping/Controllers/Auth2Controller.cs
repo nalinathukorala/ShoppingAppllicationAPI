@@ -9,6 +9,7 @@ using OnlineShopping.Buisness.DTOs;
 using OnlineShopping.DataAccess.Repository;
 using OnlineShopping.Buisness.ManagerClasses;
 using OnlineShopping.Common;
+using OnlineShopping.Buisness.Interfaces;
 
 namespace OnlineShopping.API.Controllers
 {
@@ -16,13 +17,12 @@ namespace OnlineShopping.API.Controllers
     [ApiController]
     public class Auth2Controller : ControllerBase
     {
-        private readonly AuthManager authManager;
+        private readonly IAuthManager authManager;
         private readonly IConfiguration config;
 
-        //AuthManager authManager = new AuthManager();
-        public Auth2Controller(IConfiguration config)
+        public Auth2Controller(IAuthManager authManager,IConfiguration config)
         {
-            this.authManager = new AuthManager();
+            this.authManager = authManager;
             this.config = config;
             //UserForRegisterDto userForRegisterDto = new UserForRegisterDto();
 

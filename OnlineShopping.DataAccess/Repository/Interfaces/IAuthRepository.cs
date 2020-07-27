@@ -7,9 +7,9 @@ using OnlineShopping.DataAccess.Models;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace OnlineShopping.DataAccess.Repository
+namespace OnlineShopping.DataAccess.Repository.Interfaces
 {
-   public interface IAuthRepository
+   public interface IAuthRepository<T>: IRepository<T> where T : class
     {
         Task<Customers> Register(Customers user, string password);
         Task<Customers> Login(string username, string password);

@@ -12,6 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 using OnlineShopping.Buisness.DTOs;
 using OnlineShopping.DataAccess.Models;
 using OnlineShopping.DataAccess.Repository;
+using OnlineShopping.DataAccess.Repository.Interfaces;
 
 namespace OnlineShopping.API.Controllers
 {
@@ -19,10 +20,10 @@ namespace OnlineShopping.API.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly IAuthRepository repo;
+        private readonly IAuthRepository<Customers> repo;
         private readonly IConfiguration config;
 
-        public AuthController(IAuthRepository repo, IConfiguration config)
+        public AuthController(IAuthRepository<Customers> repo, IConfiguration config)
         {
             this.repo = repo;
             this.config = config;
@@ -59,39 +60,40 @@ namespace OnlineShopping.API.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserForLoginDto userForLoginDto)
         {
-           
-            var userFromRepo = await repo.Login(userForLoginDto.Email, userForLoginDto.Password);
 
-            if (userFromRepo == null)
-                return Unauthorized();
+            //var userFromRepo = await repo.Login(userForLoginDto.Email, userForLoginDto.Password);
 
-            var claims = new[]
-            {
-                new Claim(ClaimTypes.NameIdentifier, userFromRepo.CustomerId.ToString()),
-                new Claim(ClaimTypes.Email, userFromRepo.Email)
-            };
+            //if (userFromRepo == null)
+            //    return Unauthorized();
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8
-                .GetBytes(config.GetSection("AppSettings:SecretKey").Value));
+            //var claims = new[]
+            //{
+            //    new Claim(ClaimTypes.NameIdentifier, userFromRepo.CustomerId.ToString()),
+            //    new Claim(ClaimTypes.Email, userFromRepo.Email)
+            //};
 
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+            //var key = new SymmetricSecurityKey(Encoding.UTF8
+            //    .GetBytes(config.GetSection("AppSettings:SecretKey").Value));
 
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddDays(1),
-                SigningCredentials = creds
-            };
+            //var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
-            var tokenHandler = new JwtSecurityTokenHandler();
+            //var tokenDescriptor = new SecurityTokenDescriptor
+            //{
+            //    Subject = new ClaimsIdentity(claims),
+            //    Expires = DateTime.Now.AddDays(1),
+            //    SigningCredentials = creds
+            //};
 
-            var token = tokenHandler.CreateToken(tokenDescriptor);
+            //var tokenHandler = new JwtSecurityTokenHandler();
 
-            return Ok(new
-            {
-                token = tokenHandler.WriteToken(token),
-               
-            });
+            //var token = tokenHandler.CreateToken(tokenDescriptor);
+
+            //return Ok(new
+            //{
+            //    token = tokenHandler.WriteToken(token),
+
+            //});
+            return null;
         }
     }
 }
